@@ -229,6 +229,8 @@ SUBROUTINE ukca_setup(error_code,                                              &
                       l_ukca_scale_marine_pom_ems,                             &
                       l_ukca_mp_fragment,                                      &
                       l_ukca_mp_fibre,                                         &
+                      l_mp_fibre_vgrav_scale,                                  &
+                      mp_fibre_vgrav_scaling,                                  &
                       l_ukca_radaer,                                           &
                       l_ntpreq_n_activ_sum,                                    &
                       l_ntpreq_dryd_nuc_sol,                                   &
@@ -467,6 +469,7 @@ REAL, OPTIONAL, INTENT(IN) :: const_lc
 REAL, OPTIONAL, INTENT(IN) :: const_avogadro
 REAL, OPTIONAL, INTENT(IN) :: const_boltzmann
 REAL, OPTIONAL, INTENT(IN) :: const_rho_so4
+REAL, OPTIONAL, INTENT(IN) :: mp_fibre_vgrav_scaling
 
 LOGICAL, OPTIONAL, INTENT(IN) :: l_cal360
 LOGICAL, OPTIONAL, INTENT(IN) :: l_ukca_chem_aero
@@ -575,6 +578,7 @@ LOGICAL, OPTIONAL, INTENT(IN) :: l_fix_ukca_activate_vert_rep
 LOGICAL, OPTIONAL, INTENT(IN) :: l_bug_repro_tke_index
 LOGICAL, OPTIONAL, INTENT(IN) :: l_fix_ukca_hygroscopicities
 LOGICAL, OPTIONAL, INTENT(IN) :: l_dust_mp_ageing
+LOGICAL, OPTIONAL, INTENT(IN) :: l_mp_fibre_vgrav_scale
 
 ! Control argument for skipping set up of constants if already done
 LOGICAL, OPTIONAL, INTENT(IN) :: l_skip_const_setup
@@ -1296,6 +1300,10 @@ IF (ukca_config%l_ukca_mode) THEN
       glomap_config%mode_activation_dryr = mode_activation_dryr
     IF (PRESENT(l_dust_mp_ageing))                                             &
       glomap_config%l_dust_mp_ageing = l_dust_mp_ageing
+    IF (PRESENT(l_mp_fibre_vgrav_scale))                                       &
+      glomap_config%l_mp_fibre_vgrav_scale = l_mp_fibre_vgrav_scale
+    IF (PRESENT(mp_fibre_vgrav_scaling))                                       &
+      glomap_config%mp_fibre_vgrav_scaling = mp_fibre_vgrav_scaling
 
     IF (ukca_config%l_ukca_scale_ppe) THEN
 

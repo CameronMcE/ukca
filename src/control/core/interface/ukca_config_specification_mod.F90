@@ -441,6 +441,13 @@ TYPE :: glomap_config_spec_type
   REAL :: acc_cor_scav_scaling         ! Scaling factor for scavenging
                                        ! parameters for the accumulation and
                                        ! coarse modes
+  LOGICAL :: l_mp_fibre_vgrav_scale    ! True for gravitational settling 
+                                       ! velocity in the coarse and 
+                                       ! super-coarse insoluble modes to be
+                                       ! enabled
+  REAL :: mp_fibre_vgrav_scaling       ! Scaling factor for gravitational 
+                                       ! settling velocity for the coarse and 
+                                       ! super-coarse modes 
 
   ! -- GLOMAP deposition configuration options --
   LOGICAL :: l_ddepaer                 ! True for aerosol dry deposition
@@ -993,6 +1000,8 @@ glomap_config%mode_activation_dryr = rmdi
 glomap_config%l_dust_mp_ageing = .FALSE.
 glomap_config%dry_depvel_acc_scaling = rmdi
 glomap_config%acc_cor_scav_scaling = rmdi
+glomap_config%l_mp_fibre_vgrav_scale = .FALSE.
+glomap_config%mp_fibre_vgrav_scaling = rmdi
 
 ! -- GLOMAP deposition configuration options --
 glomap_config%l_ddepaer = .FALSE.
@@ -1202,6 +1211,7 @@ SUBROUTINE ukca_get_config(                                                    &
    l_ukca_scale_sea_salt_ems,                                                  &
    l_ukca_scale_marine_pom_ems,                                                &
    l_ukca_mp_fragment, l_ukca_mp_fibre,                                        &
+   l_mp_fibre_vgrav_scale, mp_fibre_vgrav_scaling,                             &
    l_ukca_radaer,                                                              &
    l_ntpreq_n_activ_sum,                                                       &
    l_ntpreq_dryd_nuc_sol,                                                      &
@@ -1320,6 +1330,7 @@ REAL, OPTIONAL, INTENT(OUT) :: ph_fit_coeff_a
 REAL, OPTIONAL, INTENT(OUT) :: ph_fit_coeff_b
 REAL, OPTIONAL, INTENT(OUT) :: ph_fit_intercept
 REAL, OPTIONAL, INTENT(OUT) :: hno3_uptake_coeff
+REAL, OPTIONAL, INTENT(OUT) :: mp_fibre_vgrav_scaling
 
 LOGICAL, OPTIONAL, INTENT(OUT) :: l_cal360
 LOGICAL, OPTIONAL, INTENT(OUT) :: l_ukca_chem_aero
@@ -1454,6 +1465,7 @@ LOGICAL, OPTIONAL, INTENT(OUT) :: l_config_available
 LOGICAL, OPTIONAL, INTENT(OUT) :: l_dust_mp_ageing
 LOGICAL, OPTIONAL, INTENT(OUT) :: l_ukca_mp_fragment
 LOGICAL, OPTIONAL, INTENT(OUT) :: l_ukca_mp_fibre
+LOGICAL, OPTIONAL, INTENT(OUT) :: l_mp_fibre_vgrav_scale
 
 ! -- Availability of a valid configuration --
 IF (PRESENT(l_config_available)) l_config_available = l_ukca_config_available
@@ -1735,6 +1747,10 @@ IF (PRESENT(dry_depvel_acc_scaling))                                           &
   dry_depvel_acc_scaling = glomap_config%dry_depvel_acc_scaling
 IF (PRESENT(acc_cor_scav_scaling))                                             &
   acc_cor_scav_scaling = glomap_config%acc_cor_scav_scaling
+IF (PRESENT(l_mp_fibre_vgrav_scale))                                           &
+  l_mp_fibre_vgrav_scale = glomap_config%l_mp_fibre_vgrav_scale
+IF (PRESENT(mp_fibre_vgrav_scaling))                                           &
+  mp_fibre_vgrav_scaling = glomap_config%mp_fibre_vgrav_scaling
 
 ! -- GLOMAP deposition configuration optons --
 IF (PRESENT(l_ddepaer))                                                        &
