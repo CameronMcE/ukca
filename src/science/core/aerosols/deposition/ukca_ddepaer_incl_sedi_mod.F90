@@ -373,6 +373,7 @@ REAL    :: delmsedi(nbox,glomap_variables%ncp)
 REAL    :: delmddep(nbox)
 REAL    :: vgrav_lim(nbox)
 REAL    :: dry_depvel_acc_scalefactor
+REAL    :: vgrav_cor_sup_scalefactor
     ! Scaling factor for dry deposition velocity for the accumulation mode
 REAL, PARAMETER :: cfl_fraction = 0.9
 REAL, PARAMETER :: dtsedi(nmodes) =                                            &
@@ -557,12 +558,26 @@ DO imode=1,nmodes
       ! If namelist parameter for scaling the accumulation mode dry
       ! deposition velocity has been requested then set local scale factor
       ! to its value. Otherwise use a default value of 1.0
-      !  (IMODE 3, 6 are the solubale and insoluable accumulation modes)
+      !  (IMODE 3, 6 are the soluble and insoluble accumulation modes)
       IF ( (imode == 3 .OR. imode == 6) .AND.                                  &
           ukca_config%l_ukca_scale_ppe) THEN
         dry_depvel_acc_scalefactor = glomap_config%dry_depvel_acc_scaling
       ELSE
         dry_depvel_acc_scalefactor = 1.0
+      END IF
+
+      ! Correction for the shape of microplastic fibres, which are only
+      ! present in modes 4,7 and 8
+      ! If namelist parameter for scaling the coarse and super-coarse mode
+      ! gravitational settling velocity has been requested scale vgrav
+      ! by the value 
+      ! IMODE 4, 7 are the soluble and insoluble coarse modes
+      ! IMODE 8 is the super-coarse insoluble mode
+      IF ( (imode == 4 .OR. imode == 7 .OR. imode == 8) .AND.                  &
+            glomap_config%l_mp_fibre_vgrav_scale) THEN
+        vgrav_cor_sup_scalefactor = glomap_config%mp_fibre_vgrav_scaling
+      ELSE
+        vgrav_cor_sup_scalefactor = 1.0
       END IF
 
       ! .. only calculate surface resistance and deposition vel. at surface
@@ -574,8 +589,10 @@ DO imode=1,nmodes
         sr_av_3(:)=1.0/(3.0*ustr(:)*(eb_av_3(:)+eim_av_3(:)+ein(:)))
 
         !  Calculate deposition velocity
-        vdep_av_0(:)=vgrav_av_0(:)+dry_depvel_acc_scalefactor/(ar(:)+sr_av_0(:))
-        vdep_av_3(:)=vgrav_av_3(:)+dry_depvel_acc_scalefactor/(ar(:)+sr_av_3(:))
+        vdep_av_0(:)=(vgrav_av_0(:)+dry_depvel_acc_scalefactor/(ar(:)+         &
+            sr_av_0(:))) * vgrav_cor_sup_scalefactor
+        vdep_av_3(:)=(vgrav_av_3(:)+dry_depvel_acc_scalefactor/(ar(:)+         &
+            sr_av_3(:))) * vgrav_cor_sup_scalefactor
 
         !  Set gravitational velocity to deposition velocity if in lowest box
         vgrav_av_0(:)=vdep_av_0(:)
