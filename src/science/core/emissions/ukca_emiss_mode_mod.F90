@@ -329,8 +329,8 @@ CASE (3)
   CASE ('MP_frgmnts')
     icp = cp_mp
     l_emfile_mp_fragment = .TRUE.
-    mode_frac(:) = [ 0.0, 0.0, 0.0, 0.0, 0.00000009, 0.00001308, 0.00059630,   &
-                     0.99939053]
+    mode_frac(:) = [ 0.0, 0.0, 0.0, 0.0, 0.00000000935, 0.00000145, 0.0000660,  &
+                     0.99993254065]
     mode_diam(:) = [rmdi,rmdi,rmdi,rmdi,16.0,158.0,1118.0,25000.0]
     mode_stdev(:) = [rmdi,rmdi,rmdi,rmdi,1.59,1.59,1.59,1.8]
   CASE ('MP_fibres')
