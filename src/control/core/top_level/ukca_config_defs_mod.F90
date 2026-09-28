@@ -368,7 +368,8 @@ ELSE IF (ukca_config%l_ukca_strat .OR. ukca_config%l_ukca_strattrop .OR.       &
 
     ELSE  ! If using aerosol chemistry
       n_chem_emissions = 19      ! em_chem_spec below
-      n_3d_emissions   = 4       ! BC, OC, volc SO2 & aircraft NOX
+      n_3d_emissions   = 7       ! BC, OC, volc SO2 & aircraft NOX, rocket NOX
+                                 ! rocket BC, rocket H2O
 
       ! add extra allocation for microplastics (i_mode_setup 13)
       IF (ukca_config%l_ukca_mode .AND. glomap_config%i_mode_setup == 13) THEN
@@ -376,13 +377,14 @@ ELSE IF (ukca_config%l_ukca_strat .OR. ukca_config%l_ukca_strattrop .OR.       &
       END IF
 
       ALLOCATE(em_chem_spec(n_chem_emissions+n_3d_emissions))
-      em_chem_spec(1:23) =                                                     &
+      em_chem_spec(1:26) =                                                     &
           ['NO        ','CH4       ','CO        ','HCHO      ',                &
             'C2H6      ','C3H8      ','Me2CO     ','MeCHO     ',               &
             'C5H8      ','BC_fossil ','BC_biofuel','OM_fossil ',               &
             'OM_biofuel','Monoterp  ','MeOH      ','SO2_low   ',               &
             'SO2_high  ','NH3       ','DMS       ','SO2_nat   ',               &
-            'BC_biomass','OM_biomass','NO_aircrft']
+            'BC_biomass','OM_biomass','NO_aircrft','NO_rocket ',               &
+            'BC_rocket ','H2O       ']
       IF (ukca_config%i_ukca_chem_version >= ichem_ver132) THEN
         ! Include secondary organic species from isoprene oxidation (SEC_ORG_I)
         n_aero_tracers = 13
@@ -399,8 +401,8 @@ ELSE IF (ukca_config%l_ukca_strat .OR. ukca_config%l_ukca_strattrop .OR.       &
 
       ! adding microplastics to em_chem_spec
       IF (ukca_config%l_ukca_mode .AND. glomap_config%i_mode_setup == 13) THEN
-        em_chem_spec(24) = microplastic_spec(1)
-        em_chem_spec(25) = microplastic_spec(2)
+        em_chem_spec(27) = microplastic_spec(1)
+        em_chem_spec(28) = microplastic_spec(2)
       END IF
 
     END IF

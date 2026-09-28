@@ -939,7 +939,7 @@ ierror = 0
 IF (TRIM(special_units) == 'expressed_as_nitrogen'  .OR.                       &
     TRIM(special_units) == 'expressed as nitrogen') THEN
   SELECT CASE (TRIM (tracer_name))
-  CASE ('NO', 'NO_aircrft', 'NO_lightng')
+  CASE ('NO', 'NO_aircrft', 'NO_lightng', 'NO_rocket')
     ! Convert from kg(N)  to kg(NO)
     base_scaling  =  m_no / m_n
   CASE ('NH3')

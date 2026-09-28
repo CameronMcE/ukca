@@ -53,6 +53,8 @@ TYPE :: emdiags_struct
   LOGICAL :: l_em_so2low
   LOGICAL :: l_em_so2hi
   LOGICAL :: l_em_so2nat
+  LOGICAL :: l_em_no_rkt
+  LOGICAL :: l_em_h2o
   ! Logicals for CRI emission species
   LOGICAL :: l_em_etoh
   LOGICAL :: l_em_c2h2
@@ -85,6 +87,8 @@ TYPE :: emdiags_struct
   REAL, POINTER :: em_ch3oh  (:,:)
   REAL, POINTER :: em_h2     (:,:)
   REAL, POINTER :: em_no_air (:,:,:)
+  REAL, POINTER :: em_no_rkt (:,:,:)
+  REAL, POINTER :: em_h2o    (:,:,:)
   REAL, POINTER :: em_montrp (:,:)
   REAL, POINTER :: em_meoh   (:,:)
   REAL, POINTER :: em_nh3    (:,:)

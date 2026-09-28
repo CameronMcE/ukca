@@ -65,7 +65,7 @@ IMPLICIT NONE
 
 ! List of all allowable offline emissions for testing if a given emission
 ! in a netCDF file is an aerosol emission field.
-CHARACTER(LEN=10), PARAMETER :: aero_ems_species(11) = ["BC_biomass",          &
+CHARACTER(LEN=10), PARAMETER :: aero_ems_species(12) = ["BC_biomass",          &
                                                         "OM_biomass",          &
                                                         "BC_fossil ",          &
                                                         "OM_fossil ",          &
@@ -75,7 +75,8 @@ CHARACTER(LEN=10), PARAMETER :: aero_ems_species(11) = ["BC_biomass",          &
                                                         "SO2_high  ",          &
                                                         "SO2_nat   ",          &
                                                         "MP_frgmnts",          &
-                                                        "MP_fibres "           ]
+                                                        "MP_fibres ",          &
+                                                        "BC_rocket "           ]
 
 CHARACTER(LEN=*), PARAMETER, PRIVATE :: ModuleName='UKCA_EMISS_MODE_MOD'
 
@@ -293,7 +294,7 @@ CASE (3)
     l_emfile_bcoc_bm = .TRUE.
     mode_diam(:) = 150.0
     mode_stdev(:) = 1.59
-  CASE ('BC_fossil','OM_fossil')
+  CASE ('BC_fossil','OM_fossil','BC_rocket')
     ! FF emission diam is set to 60nm based on Stier et al. 2005
     ! Acceptable range for this parameter  is 30-120nm
     ! with lower limit from the uncertainty analysis of Lee et al. 2011

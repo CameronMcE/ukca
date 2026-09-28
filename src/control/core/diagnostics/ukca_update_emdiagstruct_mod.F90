@@ -109,6 +109,8 @@ IF (l_first) THEN
   emdiags%l_em_so2low = .FALSE.
   emdiags%l_em_so2hi  = .FALSE.
   emdiags%l_em_so2nat = .FALSE.
+  emdiags%l_em_no_rkt = .FALSE.
+  emdiags%l_em_h2o    = .FALSE.
   ! CRI emission logicals
   emdiags%l_em_etoh    = .FALSE.
   emdiags%l_em_c2h2    = .FALSE.
@@ -335,6 +337,29 @@ CASE ('NO_aircrft')
       emdiags%l_em_no_air       = .TRUE.
     END IF
   END IF
+
+CASE ('NO_rocket ')
+  IF (emdiags%l_em_no_rkt) THEN
+    emdiags%em_no_rkt (:,:,:) = em_diags (:,:,:)
+  ELSE
+    IF (sf(item,section)) THEN
+      ALLOCATE (emdiags%em_no_rkt (row_length, rows, model_levels))
+      emdiags%em_no_rkt (:,:,:) = em_diags (:,:,:)
+      emdiags%l_em_no_rkt       = .TRUE.
+    END IF
+  END IF
+
+CASE ('H2O       ')
+  IF (emdiags%l_em_h2o) THEN
+    emdiags%em_h2o (:,:,:) = em_diags (:,:,:)
+  ELSE
+    IF (sf(item,section)) THEN
+      ALLOCATE (emdiags%em_h2o (row_length, rows, model_levels))
+      emdiags%em_h2o (:,:,:) = em_diags (:,:,:)
+      emdiags%l_em_h2o       = .TRUE.
+    END IF
+  END IF
+
 
 CASE ('Monoterp  ')
   IF (emdiags%l_em_montrp) THEN

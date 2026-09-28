@@ -583,7 +583,7 @@ DO l = 1, num_em_flds       ! loop over emission fields
   ELSE
     ! Map chemistry emissions to appropriate tracers
     SELECT CASE (TRIM(emissions(l)%tracer_name))
-    CASE ('NO_aircrft', 'NO_lightng')
+    CASE ('NO_aircrft', 'NO_lightng', 'NO_rocket')
       mapped_tracer =   'NO        '
 
     CASE ('SO2_low', 'SO2_high', 'SO2_nat')
