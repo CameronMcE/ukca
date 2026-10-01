@@ -210,7 +210,7 @@ CASE ('CHF2Cl    ')
 
   ! -----------------------------------------
   ! Reactive and total chlorine
-CASE ('Cl        ', 'TOT_Cl    ')
+CASE ('Cl        ', 'TOT_Cl    ', 'Cl_rocket ')
   get_molmass = m_cl
 
 CASE ('ClO       ', 'Clx       ')

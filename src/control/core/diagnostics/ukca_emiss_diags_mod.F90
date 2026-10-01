@@ -355,6 +355,18 @@ IF (sf(item, section)) THEN
 END IF
 
 !---------------------------------------------------------------------
+! Sec 50, item 245: CL_rocket 3D emissions
+item = get_emdiag_stash ('CL_rocket ')
+IF (sf(item, section)) THEN
+  CALL copydiag_3d (stashwork (si(item,section,im_index):                      &
+           si_last(item,section,im_index)),                                    &
+           emdiags%em_cl_rkt (:,:,:),                                          &
+           row_length, rows,model_levels,                                      &
+           stlist(:,stindex(1,item,section,im_index)), len_stlist,             &
+           stash_levels, num_stash_levels+1)
+END IF
+
+!---------------------------------------------------------------------
 ! Sec 50, item 211: Monoterp surface emissions
 item = get_emdiag_stash ('Monoterp  ')
 IF (sf(item, section)) THEN
